@@ -19,6 +19,12 @@ O trabalho de Conclusão de Curso de Gabriel pode ser acessado em: https://drive
 
 ## Requisitos 
 
+## Funcionalidades da biblioteca
+- Exibir sprites salvos da memória
+- Desenhar quadrados de tamanho 8x8
+- Desenhar poligonos (quadrados e triângulos)
+- Modificar sprites da memória 
+- Definir a cor base do background
 
 ## Arquitetura do Kit de Desenvolvimento DE1-SoC
 O Kit de Desenvolvimento DE1-SoC ostenta uma plataforma de design de hardware robusta com base no FPGA System-on-Chip (SoC) da Altera, que combina núcleos embarcados dual-core Cortex-A9 com lógica programável, oferecendo máxima flexibilidade de design. Dispondo do poder da reconfigurabilidade aliado a um sistema de processador de alto desempenho e baixo consumo de energia. 
@@ -49,17 +55,17 @@ Para que os usuários desfrutem de máxima flexibilidade, todas as conexões sã
 - **Hardwares:**   
   - Kit de Desenvolvimento DE1-SoC
   - Monitor   
-- **Linguagem de Programação:** C   
+- **Linguagens:** Assembly e C
 - **Ambiente de Desenvolvimento:** Visual Studio Code   
-- **Compilador:** GCC   
+- **Compilador:** GCC  
 - **Controle de Versão:** Git     
-- **Ferramenta de Sistema:** Terminal Linux
+- **Ferramenta de Sistema:** Terminal Linux (Ubuntu)
 
 
 ## Configurações de Ambiente e Execução
 Para ter acesso ao projeto, clone o repositório disponível na plataforma GitHub utilizando o seguinte comando no terminal Linux:
 ```bash
-git clone https://github.com/naylane/candi-block.git
+git clone https://github.com//sarinhasf/Biblioteca-GPU.git
 ```
 Após clonar o repositório, conecte-se à placa via SSH utilizando o seu respectivo IP. Por exemplo, se o IP for `10.0.0.120`, use o seguinte comando:
 ```bash
@@ -67,7 +73,7 @@ ssh aluno@10.0.0.120
 ```
 Em seguida, transfira a pasta clonada do seu computador para o sistema de arquivos da placa:
 ```bash
-mv candi-block/[caminho do destino]
+mv Biblioteca-GPU/[caminho do destino]
 ```
 Para compilar e executar o projeto desenvolvido, navegue até o diretório onde está o repositório e execute o comando:
 ```bash
@@ -90,3 +96,4 @@ O comando `make` gerará o arquivo de compilação e o executará. Se a operaç�
 
 ## Referências
 - [1] FPGAcademy. (2024) https://fpgacademy.org/
+- [2] Trabalho de Conclusão de Curso de Gabriel Sá Barreto Alves. (2024) https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view

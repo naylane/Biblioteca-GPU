@@ -2,12 +2,15 @@
 Casos de Teste para mostrar o funcionamento da biblioteca criada.
 
 Obs. para testar cada caso de teste na função main é necessário deixar somente 1 função sem comentar.
+Obs. falta testar todos casos de testes e seu funcionamento
+Obs. lembrar de modificar o makefile para testar os casos de teste
 */
 
 #include "proc_grafico.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "tetris.h"
 
 extern void inicializa_fpga();
 extern void fecha_dev_mem();
@@ -19,39 +22,42 @@ extern void altera_cor_bg(uint16_t cor, uint8_t registrador);
 void caso_teste_1(){
     inicializa_fpga();
 
-    desenha_poligono(38, 1, 5, 1); //cor, tamanho, forma, xy
+    //definindo mascara de bits para a posição
+    #define mascara_09bits 0b111111111
 
+    // para tamanho 1 menor x,y = 10,10
+    uint16_t pos_x = 10;
+    uint16_t pos_y = 10;
+
+    pos_x &= mascara_09bits;
+    pos_y &= mascara_09bits;
+    uint32_t pos_xy_18b;
+    pos_xy_18b = (pos_x << 9 | pos_y);
+
+    desenha_poligono(BRANCO, 1, 1, pos_xy_18b); //cor, tamanho, forma, xy
     fecha_dev_mem();
 }
 
 //Instrução WBR para backgraund
 void caso_teste_2(){
     inicializa_fpga();
-
     altera_cor_bg(38, 0); //cor, registrador
-
     fecha_dev_mem();
 }
 
 //Instrução WBR para sprit
 void caso_teste_3(){
-    inicializa_fpga();
 
-    fecha_dev_mem();
 }
 
 //Instrução WSM para sprit
 void caso_teste_4(){
-    inicializa_fpga();
 
-    fecha_dev_mem();
 }
 
 //Instrução WBM
 void caso_teste_5(){
-    inicializa_fpga();
-
-    fecha_dev_mem();
+    startGame(); //aqui é chama a função "main" do tetris.c
 }
 
 int main() {
@@ -61,14 +67,14 @@ int main() {
     Esse primeiro caso de teste tem por objetivo desenhar um poligono na tela, seja triangulo ou quadrado.
     triangulo > 1 e quadrado > 0
     */
-    caso_teste_1();
+    caso_teste_1(); //OK
 
 
     /* 
     Caso de Teste 2: Instrução WBR para alterar o backgraund
     Esse segundo caso de teste tem por objetivo mudar a cor do backgraund usando o WBR.
     */
-    caso_teste_2();
+    caso_teste_2(); //OK
 
 
     /* 
@@ -87,10 +93,10 @@ int main() {
 
     /* 
     Caso de Teste 5: Instrução WBM configurar valores RGB para o preenchimento de áreas do background
-    Esse segundo caso de teste tem por objetivo modificar uma área especifica do backgraund usando a instrução WBM 
-    e após isso exibir o sprit modificado.
+    Esse segundo caso de teste tem por objetivo modificar uma área especifica do backgraund usando a instrução WBM.
+    Assim, com essa função conseguimos fazer todo nosso jogo tetris que iremos exibir para mostrar o efeitivo funcionamento.
     */
-    caso_teste_5();
+    caso_teste_5(); //OK
     
 
     return 0;

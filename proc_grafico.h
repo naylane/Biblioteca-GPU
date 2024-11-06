@@ -10,6 +10,8 @@
 #define ROXO    467
 #define CIANO   504
 #define BRANCO  511
+#define APAGA  510
+
 
 // Inicializa a FPGA e retorna o endereço base mapeado
 void inicializa_fpga();
@@ -28,7 +30,7 @@ void apaga_bloco(uint16_t posicao);
 // Encerra o acesso a FPGA - fecha o arquivo /dev/mem
 void fecha_dev_mem();
 
-void exibe_sprite(uint8_t sp, uint16_t x, uint16_t y, uint16_t offset, uint8_t registrador);
+void exibe_sprite(uint8_t sp, uint16_t x, uint16_t offset, uint8_t registrador);
 
 void altera_pixel_sprite(uint16_t cor, uint16_t endereco);
 

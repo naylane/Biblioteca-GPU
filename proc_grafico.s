@@ -2,12 +2,13 @@
 dev: .asciz "/dev/mem"       
 ponteFPGA: .word 0xff200
 mem_vga_max: .word 4799
-
+cor_apaga_bloco: .word 510
+mascara_9b: .word 0b111111111
+mascara_14b: .word 0b11111111111111
 fd: .word 0
 end_base: .word 0
 
 @ mem_vga_min, 0
-@ cor_apaga_bloco: 510
 
 .equ dataB, 0x70
 .equ dataA, 0x80
@@ -203,10 +204,9 @@ apaga_bloco:
 @ exibe_sprite (WBR): aqui exibimos um sprit usando a instrução WBR da GPU
 @ parâmetros:
 @ r0 -> sp (0-1)
-@ r1 -> x (0-1023)
-@ r2 -> y (0-1023)
-@ r3 -> offset (0-511)
-@ r4 -> registrador (0-31)
+@ r1 -> x,y (0-1023)
+@ r2 -> offset (0-511)
+@ r3 -> registrador (0-31)
 
 exibe_sprite:
   push {r0-r10, lr}      
@@ -215,28 +215,24 @@ exibe_sprite:
   ldr r9, [r9]
 
   and r7, r0, #1  @ ...|sp|                (01bit )
-  lsl r7, r7, #10 @ ...|sp|10b|  
-  orr r7, r7, r1  @ ...|sp| x |            (11bits)
-  lsl r7, r7, #10 @ ...|sp| x |10b|
-  orr r7, r7, r2  @ ...|sp| x | y |        (21bits)
+  lsl r7, r7, #20 @ ...|sp|20b|  
+  orr r7, r7, r1  @ ...|sp|                (11bits)
   lsl r7, r7, #9  @ ...|sp| x | y |  09b |
-  orr r7, r7, r3  @ ...|sp| x | y |offset| (30bits)
+  orr r7, r7, r2  @ ...|sp| x | y |offset| (30bits)
 
   str r7, [r9, #dataB] @ Escreve em dataB
 
-  bl _sp_dataB
+  @bl _sp_dataB
 
   mov r10, #0b0000 @ Opcode de WBR
 
-  ldr r4, [sp, #16] @ r0 - 0, r1 - 4, r2 - 8, r3 - 12, r4 - 16
-
-  and r7, r4, #0b11111 @ ...|registrador|        (05bits)
-  lsl r7, r4, #4       @ ...|registrador|  04b |
+  and r7, r3, #0b11111 @ ...|registrador|        (05bits)
+  lsl r7, r7, #4       @ ...|registrador|  04b |
   orr r7, r7, r10      @ ...|registrador|opcode| (09bits)
 
   str r7, [r9, #dataA] @ Escreve em dataA
 
-  bl _sp_dataA
+  @bl _sp_dataA
 
   mov r5, #1
   mov r8, #wrreg
@@ -246,7 +242,7 @@ exibe_sprite:
   mov r8, #wrreg
   str r5, [r9, r8] @ espera (wrreg)
 
-  bl _sp_sucesso
+  @bl _sp_sucesso
 
   pop {r0-r10, pc}
   bx lr
@@ -259,26 +255,31 @@ exibe_sprite:
 @ r1 - Endereço - 14b
 
 altera_pixel_sprite:
-  push {r0-r6, lr}
+  push {r0-r7, lr}
 
   ldr r3, =end_base
   ldr r3, [r3]
 
-  and r2, r0, #0b111111111 @ ...|B|G|R| (09bits)
+  ldr r7, =mascara_9b
+  ldr r7, [r7]
 
+  and r2, r0, r7 @ ...|B|G|R| (09bits)
   str r2, [r3, #dataB] @ Escreve em dataB
 
-  bl _sp_dataB
+  @bl _sp_dataB
 
   mov r4, #0b0001 @ Opcode WSM
 
-  and r2, r1, 0b11111111111111 @ ...|endereco|        (14bits)
-  lsl r2, r2, #4               @ ...|endereco|  04b |
-  orr r2, r2, r4               @ ...|endereco|opcode| (18bits)
+  ldr r7, =mascara_14b
+  ldr r7, [r7]
+
+  and r2, r1, r7   @ ...|endereco|        (14bits)
+  lsl r2, r2, #4   @ ...|endereco|  04b |
+  orr r2, r2, r4   @ ...|endereco|opcode| (18bits)
 
   str r2, [r3, #dataA] @ Escreve em dataA
 
-  bl _sp_dataA
+  @bl _sp_dataA
 
   mov r5, #1
   mov r6, #wrreg
@@ -288,9 +289,9 @@ altera_pixel_sprite:
   mov r6, #wrreg
   str r5, [r3, r6] @ espera (wrreg)
 
-  bl _sp_sucesso
+  @bl _sp_sucesso
 
-  pop {r0-r6, pc}
+  pop {r0-r7, pc}
   bx lr
 
 @_________________________________________________________________________________________________________________________________________________________________________

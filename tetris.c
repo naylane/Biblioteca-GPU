@@ -69,8 +69,25 @@ int inicializa_matriz_telaInicial() {
   return 1;
 }
 
-// inicializa a matriz com 0s
-// o 5 sinaliza onde as colunas vão ficar
+int pintando_tela_inicial_VGA() {
+  video_clear();
+    int i, j;
+  for (i = 0; i < 16; i++) {
+      for (j = 0; j < 19; j++) {
+          //Pintando matriz de branco
+          if (matriz[i][j] == 0) {
+            escreve_bloco( j + (i * 80), BRANCO);
+          //peça 1
+          } else if (matriz[i][j] == 1) {
+            escreve_bloco( j + (i * 80), ROXO);
+          //peça 2
+          } else if (matriz[i][j] == 2) {
+            escreve_bloco( j + (i * 80), AMARELO);
+      }
+  }
+  return 1;
+}
+
 int inicializa_matriz() {
   int i, j;
   for (i = 0; i < LINHAS; i++) {
@@ -86,56 +103,68 @@ int inicializa_matriz() {
           }
       }
   }
+  printf("O jogo irá começar automaticamente em brece...\n");
+  usleep(100000);
+
   return 1;
 }
 
-void exibe_bloco(){
-    uint16_t x;
-    x = 0; // posição horizontal
-    uint16_t y;
-    uint16_t y_ant = 0;
-    for( y = 0; y < 80; y++) {
-        printf("y anterior %d e y atual %d\n", y_ant, y);
-        if ( (y_ant) == (y-1) ){
-            printf("Sao iguais\n");
-            apaga_bloco(x + (y_ant * 80));
-            y_ant++;
-        }
-        escreve_bloco( x + (y * 80), BRANCO);
-        sleep(1);
-    }
-}
-
 int pintando_matriz_VGA() {
-    //video_clear();
+    video_clear();
     int i, j;
-
   for (i = 0; i < LINHAS; i++) {
       for (j = 0; j < COLUNAS; j++) {
           //Pintando matriz de branco
           if (matriz[i][j] == 0) {
-
-            escreve_bloco( i + (j * 80), BRANCO);
+            escreve_bloco( j + (i * 80), BRANCO);
           //peça 1
           } else if (matriz[i][j] == 1) {
-            escreve_bloco( i + (j * 80), ROXO);
+            escreve_bloco( j + (i * 80), ROXO);
           //peça 2
           } else if (matriz[i][j] == 2) {
-            escreve_bloco( i + (j * 80), AMARELO);
+            escreve_bloco( j + (i * 80), AMARELO);
           //peça 3
           } else if (matriz[i][j] == 3) {
-            escreve_bloco( i + (j * 80), VERDE);
+            escreve_bloco( j + (i * 80), VERDE);
           //peça 4
           } else if (matriz[i][j] == 4) {
-            escreve_bloco( i + (j * 80), CIANO);
+            escreve_bloco( j + (i * 80), CIANO);
           //pintando bordas
           } else if (matriz[i][j] == 5) {
-            escreve_bloco( i + (j * 80), VERDE);
+            escreve_bloco( j + (i * 80), LARANJA);
           }
-       
+        usleep(1000);
       }
   }
+  return 1;
+}
 
+//essa função apaga toda a tela
+int video_clear() {
+    int i, j;
+  for (i = 0; i < 480; i++) {
+      for (j = 0; j < 640; j++) {
+          //Pintando matriz de branco
+          if (matriz[i][j] == 0) {
+            apaga_bloco(j + (i * 80));
+          //peça 1
+          } else if (matriz[i][j] == 1) {
+            apaga_bloco(j + (i * 80));
+          //peça 2
+          } else if (matriz[i][j] == 2) {
+            apaga_bloco(j + (i * 80));
+          //peça 3
+          } else if (matriz[i][j] == 3) {
+            apaga_bloco(j + (i * 80));
+          //peça 4
+          } else if (matriz[i][j] == 4) {
+            apaga_bloco(j + (i * 80));
+          //pintando bordas
+          } else if (matriz[i][j] == 5) {
+            apaga_bloco(j + (i * 80));
+          }
+      }
+  }
   return 1;
 }
 
@@ -251,7 +280,6 @@ int verifica_agrupamento() {
                return 1;
           }
 
-
           if (matriz[i][j] != 0 && matriz[i][j] != 5 &&
               matriz[i][j] == matriz[i + 1][j] &&
               matriz[i][j] == matriz[i][j - 1] &&
@@ -276,17 +304,19 @@ int main() {
    inicializa_fpga();
 
   if (1) {
-       //se sair do loop, inicia matriz
-       inicializa_matriz();
+      //iniciando a matriz do tabuleiro
+      inicializa_matriz();
 
-      while (encerrado) { // Loop que inicia com a chave
+      //tela inicial
+      inicializa_matriz_telaInicial();
+      pintando_tela_inicial_VGA();
 
-          int inicial_i = 0; // linha inicial na matriz
-          int inicial_j = 0; // coluna inicial na matriz
+      //iniciando o jogo
+      while (encerrado) { 
+          printf("O jogo está começando!\n");
 
-          // Coordenadas iniciais da nova peça
-           inicial_i = 1; // linha inicial na matriz
-           inicial_j = 10; // coluna inicial na matriz
+          int inicial_i = 1; // linha inicial na matriz
+          int inicial_j = 10; // coluna inicial na matriz
 
           int fim = 0; // flag para controlar o fim de movimento de uma peça
           cor = sorteia_cor();
@@ -304,12 +334,10 @@ int main() {
               matriz[inicial_i][inicial_j] = cor;
               pintando_matriz_VGA();
 
-
-              usleep(50000); // Intervalo para a peça descer
+              //usleep(50000); // Intervalo para a peça descer (ver se vai precisar desse sleep)
            
               //Verifica agrupamento de um quadrado
               verifica = verifica_agrupamento();
-
 
                // Verifica se pode mover para baixo
               if (verifica != 1 && pode_mover_para_baixo(inicial_i, inicial_j)) {

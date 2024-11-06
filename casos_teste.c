@@ -16,7 +16,7 @@ extern void inicializa_fpga();
 extern void fecha_dev_mem();
 extern void desenha_poligono(uint16_t cor, uint16_t tamanho, uint16_t forma, uint16_t endereco);
 extern void altera_cor_bg(uint16_t cor, uint8_t registrador);
-
+//extern void startGame();
 
 //Instrução DP
 void caso_teste_1(){
@@ -34,7 +34,7 @@ void caso_teste_1(){
     uint32_t pos_xy_18b;
     pos_xy_18b = (pos_x << 9 | pos_y);
 
-    desenha_poligono(BRANCO, 1, 1, pos_xy_18b); //cor, tamanho, forma, xy
+    desenha_poligono(ROXO, 1, 1, pos_xy_18b); //cor, tamanho, forma, xy
     fecha_dev_mem();
 }
 
@@ -67,21 +67,21 @@ int main() {
     Esse primeiro caso de teste tem por objetivo desenhar um poligono na tela, seja triangulo ou quadrado.
     triangulo > 1 e quadrado > 0
     */
-    caso_teste_1(); //OK
+    //caso_teste_1(); //OK E TESTADA NO LEDS
 
 
     /* 
     Caso de Teste 2: Instrução WBR para alterar o backgraund
     Esse segundo caso de teste tem por objetivo mudar a cor do backgraund usando o WBR.
     */
-    caso_teste_2(); //OK
+    caso_teste_2(); //OK E TESTADO NO LEDS
 
 
     /* 
     Caso de Teste 3: Instrução WBR para exibir sprit
     Esse segundo caso de teste tem por objetivo exibir na tela um sprit usando o WBR.
     */
-    caso_teste_3();
+    //caso_teste_3();
 
 
     /* 
@@ -89,7 +89,7 @@ int main() {
     Esse segundo caso de teste tem por objetivo modificar o conteúdo na memória do sprit usando a intrução WSM 
     e após isso exibir o sprit modificado.
     */
-    caso_teste_4();
+    //caso_teste_4();
 
     /* 
     Caso de Teste 5: Instrução WBM configurar valores RGB para o preenchimento de áreas do background

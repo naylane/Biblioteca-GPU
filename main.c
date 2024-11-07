@@ -286,6 +286,7 @@ int main() {
     }
 
     cria_sprite(1600, dados_do_sprite);
+
     exibe_sprite(1, pos_xy_20b+80, 4, 1);
 
     

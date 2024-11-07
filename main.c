@@ -179,10 +179,6 @@ void move_sprite() {
     pos_xy_20b = (pos_x << 10 | pos_y);
     uint32_t pos_xy_20b_ant = (pos_xy_20b); 
 
-    //uint16_t pos_x = 350; //(0 a 639)
-    //uint16_t x_ant = pos_x;
-    //uint16_t pos_y = 240; //(0 a 479)
-
     int direcao_sprite = 1; // 1 descendo e -1 subindo
 
     while (1) {

@@ -1,19 +1,18 @@
+/* 
+    Caso de Teste 5: Instrução WBM configurar valores RGB para o preenchimento de áreas do background
+    Esse segundo caso de teste tem por objetivo modificar uma área especifica do backgraund usando a instrução WBM.
+    Assim, com essa função conseguimos fazer todo nosso jogo tetris que iremos exibir para mostrar o efeitivo funcionamento.
+*/
+
 #include <stdio.h>
 #include <time.h>
 #include "acell.c"
 #include "proc_grafico.h"
-#include "tetris.h"
 
 extern void inicializa_fpga();
 extern void escreve_bloco(uint16_t posicao, uint16_t cor);
 extern void apaga_bloco(uint16_t posicao);
 extern void fecha_dev_mem();
-
-// COORDENADAS DO PLANO NO VGA
-#define X1 100
-#define Y1 20
-#define X2 200
-#define Y2 200
 
 // matriz desenhada
 #define ALTURA 180 // 20 linhas
@@ -32,18 +31,18 @@ int matriz[LINHAS][COLUNAS]; //36 x 20
 int telaInicialMatriz[16][19] = {
        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0}, // 1
        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, // 2
-       {0,1,1,1,0,0,1,0,0,1,1,1,0,1,1,0,0,1,0}, // 3
+       {0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,0,0,1,0}, // 3
        {0,1,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0}, // 4
        {0,1,0,0,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0}, // 5
        {0,1,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0}, // 6
        {0,1,1,1,0,1,0,1,0,1,0,1,0,1,1,0,0,1,0}, // 7
        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, // 8
        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, // 9
-       {2,2,0,0,2,0,0,0,2,2,2,0,2,2,2,0,2,0,2}, // 10
+       {2,2,2,0,2,0,0,0,2,2,2,0,2,2,2,0,2,0,2}, // 10
        {2,0,2,0,2,0,0,0,2,0,2,0,2,0,0,0,2,0,2}, // 11
        {2,2,0,0,2,0,0,0,2,0,2,0,2,0,0,0,2,2,0}, // 12
        {2,0,2,0,2,0,0,0,2,0,2,0,2,0,0,0,2,0,2}, // 13
-       {2,2,0,0,2,2,2,0,2,2,2,0,2,2,2,0,2,0,2}, // 14
+       {2,2,2,0,2,2,2,0,2,2,2,0,2,2,2,0,2,0,2}, // 14
        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, // 15
        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}  // 16
 };
@@ -52,38 +51,36 @@ int telaInicialMatriz[16][19] = {
 int pontos = 0;
 
 int pintando_tela_inicial_VGA() {  
-  printf("Entra na matriz pintando tela inicial\n");
+  printf("Pintando tela inicial\n");
     int i, j;
     
-    printf("Entra na matriz pintando tela inicial 2\n");
     for (i = 0; i < 16; i++) {
       for (j = 0; j < 19; j++) {
           //Pintando matriz de branco
           if (telaInicialMatriz[i][j] == 0) {
             int a, b;
-            for(a = 0; a < 100; a++){
-              for(b=0; b <100; b++){
+            for(a = 0; a < 80; a++){
+              for(b=0; b < 80; b++){
                 escreve_bloco( j + (i * 80), BRANCO);
               }
             }
           //peça 1
           } else if (telaInicialMatriz[i][j] == 1) {
             int a, b;
-            for(a = 0; a < 100; a++){
-              for(b=0; b <100; b++){
+            for(a = 0; a < 80; a++){
+              for(b=0; b < 80; b++){   
                 escreve_bloco( j + (i * 80), ROXO);
               }
             }
           //peça 2
           } else if (telaInicialMatriz[i][j] == 2) {
             int a, b;
-            for(a = 0; a < 100; a++){
-              for(b=0; b <100; b++){
+            for(a = 0; a < 80; a++){
+              for(b=0; b < 80; b++){
                 escreve_bloco( j + (i * 80), LARANJA);
               }
             }
       }
-      //usleep(6000);
     }
   }
   
@@ -111,7 +108,6 @@ int inicializa_matriz() {
       }
   }
   printf("Inicializou a matriz principal\n");
-
   return 1;
 }
 
@@ -127,7 +123,7 @@ int pintando_matriz_VGA() {
             escreve_bloco( j + (i * 80), ROXO);
           //peça 2
           } else if (matriz[i][j] == 2) {
-            escreve_bloco( j + (i * 80), AMARELO);
+            escreve_bloco( j + (i * 80), ROSA);
           //peça 3
           } else if (matriz[i][j] == 3) {
             escreve_bloco( j + (i * 80), VERDE);
@@ -144,7 +140,7 @@ int pintando_matriz_VGA() {
   return 1;
 }
 
-//essa função apaga toda a tela
+//essa função apaga toda a tela em relação ao BG
 int video_clear() {
     int i, j;
   for (i = 0; i < 480; i++) {
@@ -152,29 +148,26 @@ int video_clear() {
             apaga_bloco(j + (i * 80));
       }
   }
-  
-  printf("video_clear funciona!");
+  printf("video_clear feito!\n");
   return 1;
 }
 
 // Verifica se a próxima posição está ocupada ou se atingiu o fundo
-int pode_mover_para_baixo(int i, int j) { //no caso o nosso fundo é a linha 34
-  if (i + 1 >= LINHAS-1) return 0; // Chegou ao fundo - considerando a borda
-  if (matriz[i + 1][j] != 0) return 0; // Há uma peça abaixo
-  return 1; // Pode mover para baixo
+int pode_mover_para_baixo(int i, int j) { 
+  if (i + 1 >= LINHAS-1) return 0; 
+  if (matriz[i + 1][j] != 0) return 0; 
+  return 1; 
 }
 
 //sorteador de valores de 1 a 4
 int sorteia_cor() {
-  srand((unsigned)time(NULL));  // Inicializa o gerador de números aleatórios
-  int tipo_peca = (rand() % 4) + 1;   // Sorteia um número entre 1 e 4
-  return tipo_peca;  // Retorna o número sorteado (1, 2, 3 ou 4)
+  srand((unsigned)time(NULL));  
+  int tipo_peca = (rand() % 4) + 1;   
+  return tipo_peca;  
 }
 
 //função que move para os lados
-//direteção recebe 1, -1 ou 0 -> valores vão vim do acelerometro
 int move_para_lado(int posX, int posY, int direcao, int cor) {
-    //nesse codigo ele verifica se os lados não são bordas
     if(matriz[posX][posY-1] != 5 && matriz[posX][posY+1] != 5 ){
         if(direcao == -1 && matriz[posX][posY-1] == 0 ){
             matriz[posX][posY] = 0;
@@ -186,20 +179,20 @@ int move_para_lado(int posX, int posY, int direcao, int cor) {
             matriz[posX][posY] = cor;
         }
     }
-
   return posY;
 }
 
+//Essa função desce os blocos que estão acima
 void desce_blocos_acima() {
     int i, j;
-    for (j = 1; j <= (COLUNAS-2); j++) { // Percorre todas as colunas
-        for (i = (LINHAS-2); i >= 1; i--) { // De baixo para cima, exceto a última linha
-            if (matriz[i][j] != 0) { // Se houver uma peça
+    for (j = 1; j <= (COLUNAS-2); j++) { 
+        for (i = (LINHAS-2); i >= 1; i--) { 
+            if (matriz[i][j] != 0) { 
                 int k = i;
                 while ((k + 1 < LINHAS) && (matriz[k + 1][j] == 0)) {
-                    matriz[k + 1][j] = matriz[k][j]; // Move o bloco para baixo
-                    matriz[k][j] = 0; // Deixa o espaço original vazio
-                    k++; // Continua descendo até encontrar um obstáculo
+                    matriz[k + 1][j] = matriz[k][j]; 
+                    matriz[k][j] = 0; 
+                    k++; 
                 }
             }
         }
@@ -291,14 +284,13 @@ void startGame(){
 
    configurar_acelerometro();
    inicializa_fpga();
-   video_clear();
+   video_clear(); //limpa toda tela sempre ao iniciar
 
   if (1) {
       //iniciando a matriz do tabuleiro
       inicializa_matriz();
 
       //tela inicial
-      //inicializa_matriz_telaInicial();
       pintando_tela_inicial_VGA();
 
       //iniciando o jogo
@@ -320,11 +312,9 @@ void startGame(){
                    encerrado = 0;
                    break;
                 }
-              //usleep(100000); // Intervalo para a peça descer (ver se vai precisar desse sleep)
 
               matriz[inicial_i][inicial_j] = cor;
               pintando_matriz_VGA();
-
            
               //Verifica agrupamento de um quadrado
               verifica = verifica_agrupamento();
@@ -335,11 +325,9 @@ void startGame(){
                   matriz[inicial_i][inicial_j] = 0;
                   inicial_i += 1;
 
-                   //verifica o movimento para os lados
-                   //aq vai verificar a função que brenda vai fazer, retornando 1, 0 ou -1
-                  
-                   int direcao = get_direcao_movimento();
-                    inicial_j = move_para_lado(inicial_i, inicial_j, direcao, cor);
+                  //verifica o movimento para os lados
+                  int direcao = get_direcao_movimento();
+                  inicial_j = move_para_lado(inicial_i, inicial_j, direcao, cor);
              
               } else {
                   // A peça atingiu o fundo ou outra peça, fixa ela

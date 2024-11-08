@@ -10,7 +10,6 @@ Obs. lembrar de modificar o makefile para testar os casos de teste
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "tetris.h"
 
 extern void inicializa_fpga();
 extern void fecha_dev_mem();
@@ -151,6 +150,7 @@ void caso_teste_1(){
     uint32_t pos_xy_18b;
     pos_xy_18b = (pos_x << 9 | pos_y);
 
+    //OBS: para apagar o poligono passa tamanho 0
     desenha_poligono(ROXO, 1, 1, pos_xy_18b); //cor, tamanho, forma, xy
     fecha_dev_mem();
 }
@@ -158,7 +158,9 @@ void caso_teste_1(){
 //Instrução WBR para backgraund
 void caso_teste_2(){
     inicializa_fpga();
-    altera_cor_bg(38, 0); //cor, registrador
+
+    //OBS: para apagar o BG passa a cor como 000
+    altera_cor_bg(PRETO, 0); //cor, registrador
     fecha_dev_mem();
 }
 
@@ -201,33 +203,29 @@ void caso_teste_4(){
     fecha_dev_mem();
 }
 
-//Instrução WBM
-void caso_teste_5(){
-    startGame(); //aqui é chama a função "main" do tetris.c
-}
-
 int main() {
 
     /* 
     Caso de Teste 1: Instrução DP
     Esse primeiro caso de teste tem por objetivo desenhar um poligono na tela, seja triangulo ou quadrado.
+    Utilizamos a instrução desenha_poligono da nossa blibioteca.
     triangulo > 1 e quadrado > 0
     */
-    //caso_teste_1(); //OK E TESTADA NO LEDS
+    caso_teste_1(); //OK E TESTADA NO LEDS
 
 
     /* 
     Caso de Teste 2: Instrução WBR para alterar o backgraund
     Esse segundo caso de teste tem por objetivo mudar a cor do backgraund usando o WBR.
     */
-    caso_teste_2(); //OK E TESTADO NO LEDS
+    //caso_teste_2(); //OK E TESTADO NO LEDS
 
 
     /* 
     Caso de Teste 3: Instrução WBR para exibir sprite
     Esse segundo caso de teste tem por objetivo exibir na tela um sprite usando o WBR.
     */
-    //caso_teste_3();
+    //caso_teste_3(); //OK E TESTADO NO LEDS
 
 
     /* 
@@ -235,15 +233,7 @@ int main() {
     Esse segundo caso de teste tem por objetivo modificar o conteúdo na memória do sprite usando a intrução WSM 
     e após isso exibir o sprite modificado.
     */
-    //caso_teste_4();
-
-    /* 
-    Caso de Teste 5: Instrução WBM configurar valores RGB para o preenchimento de áreas do background
-    Esse segundo caso de teste tem por objetivo modificar uma área especifica do backgraund usando a instrução WBM.
-    Assim, com essa função conseguimos fazer todo nosso jogo tetris que iremos exibir para mostrar o efeitivo funcionamento.
-    */
-    caso_teste_5(); //OK
-    
+    //caso_teste_4(); //OK E TESTADO NO LEDS
 
     return 0;
 }

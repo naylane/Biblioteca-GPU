@@ -12,22 +12,12 @@
 #define BRANCO  511
 #define APAGA  510
 
-
-// Inicializa a FPGA e retorna o endereço base mapeado
 void inicializa_fpga();
 
-// Escreve um bloco na posição e cor informadas
-// Parâmetros:
-//  posicao: Posição do bloco a ser escrito (endereço)
-//  cor: Cor para ser exibida no bloco
 void escreve_bloco(uint16_t posicao, uint16_t cor);
 
-// Apaga um bloco na posição informada
-// Parâmetros:
-//  posicao: Posição do bloco a ser apagado (endereço)
 void apaga_bloco(uint16_t posicao);
 
-// Encerra o acesso a FPGA - fecha o arquivo /dev/mem
 void fecha_dev_mem();
 
 void exibe_sprite(uint8_t sp, uint16_t x, uint16_t offset, uint8_t registrador);

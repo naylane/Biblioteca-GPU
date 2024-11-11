@@ -1,6 +1,5 @@
 <div align="center">  
   <img align="center" width=100% src="https://github.com/sarinhasf/Biblioteca-GPU/blob/main/img/capa.png" alt="GraphLib">
-  <p><em>Desenvolvimento da Biblioteca</em></p>
 </div>
 
 <h4 align="center">Projeto da disciplina TEC 499 - Sistemas Digitais - TP04 | Grupo 02</h4>
@@ -18,15 +17,23 @@
 - [Referências](#Referências)
 
 
-## Visão Geral do Problema 2
+# Visão Geral do Projeto
 O objetivo central do problema 2 foi criar uma biblioteca em assembly com funções gráficas para poder manipular a GPU feita pelo estudante Gabriel Sá Barreto, para assim, facilitar a implementação do jogo Tetris feito no problema 1. No momento, essa GPU se encontra na placa que estamos utilizando para desenvolver o problema, a DE1-SOC.
 
 O trabalho de Conclusão de Curso de Gabriel pode ser acessado em: https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view
 
-## Requisitos 
-- Criar uma biblioteca em assembly para manipular as funções gráficas da GPU feita por Gabriel Sá Barreto
 
-## Arquitetura do Kit de Desenvolvimento DE1-SoC
+# Requisitos 
+- Desenvolver uma biblioteca em Assembly para manipular as funções gráficas do Processador Gráfico feito por Gabriel Sá Barreto. 
+- Funcionalidades da biblioteca:
+  - Exibir sprites salvos da memória
+  - Desenhar quadrados de tamanho 8x8
+  - Desenhar poligonos (quadrados e triângulos)
+  - Modificar sprites da memória 
+  - Definir a cor base do background
+
+
+# Arquitetura do Kit de Desenvolvimento DE1-SoC
 O Kit de Desenvolvimento DE1-SoC ostenta uma plataforma de design de hardware robusta com base no FPGA System-on-Chip (SoC) da Altera, que combina núcleos embarcados dual-core Cortex-A9 com lógica programável, oferecendo máxima flexibilidade de design. Dispondo do poder da reconfigurabilidade aliado a um sistema de processador de alto desempenho e baixo consumo de energia. 
 
 O System-on-Chip (SoC) da Altera integra um sistema de processador (HPS) baseado em ARM, composto por processador, periféricos e interfaces de memória conectados de forma integrada à estrutura FPGA, utilizando interconexão de alta largura de banda. Incluindo hardwares como memória DDR3 de alta velocidade, recursos de áudio e vídeo, rede Ethernet, entre outros.
@@ -44,11 +51,12 @@ Para que os usuários desfrutem de máxima flexibilidade, todas as conexões sã
   <p><em>Diagrama de Blocos</em></p>
 </div>
 
-## Sobre o Processador Gráfico Utilizado
-O GPU placa DE1-SOC que estamos utilizando para a elaboração dos projetos do PBL de SD foi substituida por um um processador gráfico feito pelo aluno Gabriel Sá Barreto em seu TCC de tema "Desenvolvimento de uma Arquitetura Baseada em Sprites para criac ̧ao de Jogos 2D em Ambientes Reconfiguraveis utilizando dispositivos FPGA", material este que usamos como base durante todo projeto. 
-Esse processador permite mover e controlar elementos em um monitor VGA com resolução de 640x480 pixels. Dessa forma, ele contém funções que permite desenhar polígonos convexos (Quadrado e Triângulo), desenhar sprits, além de pintar o backgraund ou uma parte específica do backgraund. 
 
-### Arquitetura do Processador Gráfico 
+# Sobre o Processador Gráfico Utilizado
+O GPU placa DE1-SOC que estamos utilizando para a elaboração dos projetos do PBL de SD foi substituida por um um processador gráfico feito pelo aluno Gabriel Sá Barreto em seu TCC de tema "Desenvolvimento de uma Arquitetura Baseada em Sprites para criac ̧ao de Jogos 2D em Ambientes Reconfiguraveis utilizando dispositivos FPGA", material este que usamos como base durante todo projeto. 
+Esse processador permite mover e controlar elementos em um monitor VGA com resolução de 640x480 pixels. Dessa forma, ele contém funções que permite desenhar polígonos convexos (Quadrado e Triângulo), desenhar sprits, além de pintar o background ou uma parte específica do background. 
+
+## Arquitetura do Processador Gráfico 
 - Falando um pouco sobre sua arquitetura, ela consiste em um processador de propósito geral, duas FIFOs (First In First Out), uma PLL (Phase Locked Loop) e um Processador Gráfico. Para atuar como processador de propósito geral foi escolhido o Nios II. 
 - O Nios II armazena nas FIFOs todas as instruções que devem ser executadas pelo Processador Gráfico. O processador Nios II controla a lógica geral do sistema, ele envia comandos de controle (inst_a, inst_b) e escreve dados para a FIFO A através do sinal wrfull, e também recebe informações de status, como o sinal de reset e clock. 
 - É importante ressaltar que o controle de acesso para leitura/escrita é realizado pelo controlador de barramento Nios II. Assim, é realizado a distribuição dos campos das intruções do Processador Gráfico dentro dos barramentos dataA e dataB no momento do envio, assim mantendo esses dois barramentos de 32-bits separados podemos construir instruções de até 64-bits.
@@ -60,7 +68,7 @@ Esse processador permite mover e controlar elementos em um monitor VGA com resol
   <p><em>Arquitetura do processador gráfico do Gabriel de Sá Barreto</em></p>
 </div>
 
-### Instruções do Processador Gráfico 
+## Instruções do Processador Gráfico 
 O processador gráfico do Gabriel contém algumas intruções para exibir elementos gráficos no VGA, elas são:
   1) Escrita no Banco de Registradores (WBR): Essa instrução é responsável por configurar os
   registradores que armazenam as informações dos sprites e a cor base do background.
@@ -70,7 +78,7 @@ O processador gráfico do Gabriel contém algumas intruções para exibir elemen
 
 Assim, no nosso código em assembly, passando corretamente os parâmetros atráves dos barramentos dataA e dataB, e sempre habilitando e desabilitando o wrreg para o correto funcionamento das intruções, conseguimos construir a GraphLib (nossa biblioteca).
 
-## Desenvolvimento da Biblioteca
+# Desenvolvimento da Biblioteca
 A presente biblioteca foi desenvolvida em assembly para interagir com o processador gráfico citado anteriormente para exibir elementos no monitor através do VGA. Ela oferece funções para manipulação de elementos gráficos, como sprites, background e polígonos, diretamente através de instruções de baixo nível.
 
 <div align="center">  
@@ -78,45 +86,55 @@ A presente biblioteca foi desenvolvida em assembly para interagir com o processa
   <p><em>Desenvolvimento da Biblioteca</em></p>
 </div>
 
-### Funcionalidades da biblioteca
-- Exibir sprites salvos da memória
-- Desenhar quadrados de tamanho 8x8
-- Desenhar poligonos (quadrados e triângulos)
-- Modificar sprites da memória 
-- Definir a cor base do background
-
-
 ### Definir a cor base do background
 São deslocados 4 bits no registrador r1 para a escrita do opcode. O valor do opcode da instrução WBR (0000) é guardado em r3, após isso, os dois valores são somados e armazenados no barramento A. O parâmetro referente a cor, presente em r0, é armazenado no barramento B. Após o envio desses dados, wrreg é ativo e a instrução executada.
 - Parâmetros
   - uint16_t cor: o número da nova cor do background.
   - uint8_t registrador: o registrador onde a cor será armazenada.
 <div align="center">  
-  <img align="center" width=100% src="img/altera_cor_bg.png">
+  <img align="center" width=90% src="img/altera_cor_bg.png">
+  <p><em>Chamada da função em C</em></p>
+</div>
+
+### Exibir sprites salvos da memória
+desenvolvimento em assembly
+- Parâmetros
+  - ...
+<div align="center">  
+  <img align="center" width=100% src="img/exibe_sprite.png">
+  <p><em>Chamada da função em C</em></p>
+</div>
+
+### Modificar sprites da memória 
+desenvolvimento em assembly
+- Parâmetros
+  - ...
+<div align="center">  
+  <img align="center" width=100% src="img/altera_pixel_sprite.png">
+  <p><em>Chamada da função em C</em></p>
+</div>
+
+### Desenhar poligonos (quadrados e triângulos)
+desenvolvimento em assembly
+- Parâmetros
+  - ...
+<div align="center">  
+  <img align="center" width=100% src="img/desenha_poligono.png">
+  <p><em>Chamada da função em C</em></p>
+</div>
+
+### Desenhar quadrados de tamanho 8x8
+desenvolvimento em assembly
+- Parâmetros
+  - ...
+<div align="center">  
+  <img align="center" width=90% src="img/escreve_bloco.png">
   <p><em>Chamada da função em C</em></p>
 </div>
 
 
-...
-<div align="center">  
-  <img align="center" width=100% src="img/exibe_sprite.png">
-</div>
-...
-<div align="center">  
-  <img align="center" width=100% src="img/altera_pixel_sprite.png">
-</div>
-...
-<div align="center">  
-  <img align="center" width=100% src="img/desenha_poligono.png">
-</div>
-...
-<div align="center">  
-  <img align="center" width=100% src="img/escreve_bloco.png">
-</div>
-...
-
-## Testes
-Foram construidos 5 casos de testes para testar se todas instruções contruidas estavam funcionando corretamente. Os 4 primeiros casos de teste é possível encontrar no arquivo casos_teste.c e o quinto caso de teste é o próprio funcionamento do jogo tetris, que se encontra no arquivo tetris.c.
+# Testes
+Foram construidos 5 casos de testes para testar se todas instruções estaam funcionando corretamente:
 
  - **Caso de Teste 1 | Instrução DP:** 
     Esse primeiro caso de teste tem por objetivo testar a função feita da nossa biblioteca: desenha_poligono, usando a intrução DP da GPU. Assim ela deve desenhar um poligono em tela, seja um triângulo ou quadrado.  
@@ -133,8 +151,9 @@ Foram construidos 5 casos de testes para testar se todas instruções contruidas
   - **Caso de Teste 5: Instrução WBM configurar valores RGB para o preenchimento de áreas do background:** 
     Esse caso de teste tem por objetivo modificar uma área especifica do backgraund usando a instrução WBM. 
     Assim, com essa função conseguimos fazer todo nosso jogo tetris que iremos exibir para mostrar o efeitivo funcionamento usando as seguintes funções da nossa biblioteca: escreve_bloco e apaga_bloco.
-    
-## Tecnologias e Ferramentas utilizadas
+
+
+# Tecnologias e Ferramentas utilizadas
 - **Hardwares:**   
   - Kit de Desenvolvimento DE1-SoC
   - Monitor   
@@ -145,7 +164,7 @@ Foram construidos 5 casos de testes para testar se todas instruções contruidas
 - **Ferramenta de Sistema:** Terminal Linux (Ubuntu)
 
 
-## Configurações de Ambiente e Execução
+# Configurações de Ambiente e Execução
 Para ter acesso ao projeto, clone o repositório disponível na plataforma GitHub utilizando o seguinte comando no terminal Linux:
 ```bash
 git clone https://github.com//sarinhasf/Biblioteca-GPU.git
@@ -167,7 +186,7 @@ O comando `make` gerará o arquivo de compilação e o executará. Se a operaç�
 ⚠️ **Observação:** para seguir esse passo a passo será necessário saber a senha do usuário `aluno`.
 
 
-## Desenvolvedoras
+# Desenvolvedoras
 <table>
   <tr>
     <td align="center"><img style="" src="https://avatars.githubusercontent.com/u/142849685?v=4" width="100px;" alt=""/><br /><sub><b> Brenda Araújo </b></sub></a><br />👨‍💻</a></td>
@@ -177,7 +196,7 @@ O comando `make` gerará o arquivo de compilação e o executará. Se a operaç�
 </table>
 
 
-## Referências
+# Referências
 - [1] FPGAcademy. (2024) https://fpgacademy.org/
 - [2] Trabalho de Conclusão de Curso de Gabriel Sá Barreto Alves. (2024) https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view
   

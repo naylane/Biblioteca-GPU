@@ -215,8 +215,8 @@ exibe_sprite:
   ldr r9, [r9]
 
   and r7, r0, #1  @ ...|sp|                (01bit )
-  lsl r7, r7, #20 @ ...|sp|20b|  
-  orr r7, r7, r1  @ ...|sp|                (11bits)
+  lsl r7, r7, #20 @ ...|sp|20b|            (21bits)
+  orr r7, r7, r1
   lsl r7, r7, #9  @ ...|sp| x | y |  09b |
   orr r7, r7, r2  @ ...|sp| x | y |offset| (30bits)
 

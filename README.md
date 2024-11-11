@@ -46,7 +46,12 @@ Para que os usuários desfrutem de máxima flexibilidade, todas as conexões sã
 
 
 ## Desenvolvimento da Biblioteca
-A presente biblioteca em assembly foi desenvolvida para interagir com o processador gráfico e realizar exibição no monitor através do VGA. Ela oferece funções para manipulação de elementos gráficos, como sprites e polígonos, diretamente através de instruções de baixo nível.
+A presente biblioteca foi desenvolvida em assembly para interagir com o processador gráfico para exibir elementos no monitor através do VGA. Ela oferece funções para manipulação de elementos gráficos, como sprites, background e polígonos, diretamente através de instruções de baixo nível.
+
+<div align="center">  
+  <img align="center" width=50% src="https://github.com/sarinhasf/Biblioteca-GPU/blob/main/img/anima%C3%A7%C3%A3o%20gpu.gif" alt="GraphLib">
+  <p><em>Desenvolvimento da Biblioteca</em></p>
+</div>
 
 ## Testes
 

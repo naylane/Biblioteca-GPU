@@ -85,6 +85,17 @@ A presente biblioteca foi desenvolvida em assembly para interagir com o processa
   <p><em>Desenvolvimento da Biblioteca</em></p>
 </div>
 
+### Alterar cor padrão do background
+<div align="center">  
+  <img align="center" width=100% src="img/altera_cor_bg.png" alt="Alterar cor padrão do background">
+</div>
+
+- Parâmetros
+  - uint16_t cor: o número da nova cor do background.
+  - uint8_t registrador: o registrador onde a cor será armazenada.
+
+...
+
 ## Testes
 Foram construidos 5 casos de testes para testar se todas instruções estaam funcionando corretamente:
 

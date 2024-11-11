@@ -46,7 +46,7 @@ Para que os usuários desfrutem de máxima flexibilidade, todas as conexões sã
 
 
 ## Desenvolvimento da Biblioteca
-
+A presente biblioteca em assembly foi desenvolvida para interagir com o processador gráfico e realizar exibição no monitor através do VGA. Ela oferece funções para manipulação de elementos gráficos, como sprites e polígonos, diretamente através de instruções de baixo nível.
 
 ## Testes
 

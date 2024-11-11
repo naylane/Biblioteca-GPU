@@ -85,15 +85,34 @@ A presente biblioteca foi desenvolvida em assembly para interagir com o processa
 - Modificar sprites da memória 
 - Definir a cor base do background
 
-### Alterar cor padrão do background
-<div align="center">  
-  <img align="center" width=100% src="img/altera_cor_bg.png" alt="Alterar cor padrão do background">
-</div>
 
+### Definir a cor base do background
+São deslocados 4 bits no registrador r1 para a escrita do opcode. O valor do opcode da instrução WBR (0000) é guardado em r3, após isso, os dois valores são somados e armazenados no barramento A. O parâmetro referente a cor, presente em r0, é armazenado no barramento B. Após o envio desses dados, wrreg é ativo e a instrução executada.
 - Parâmetros
   - uint16_t cor: o número da nova cor do background.
   - uint8_t registrador: o registrador onde a cor será armazenada.
+<div align="center">  
+  <img align="center" width=100% src="img/altera_cor_bg.png">
+  <p><em>Chamada da função em C</em></p>
+</div>
 
+
+...
+<div align="center">  
+  <img align="center" width=100% src="img/exibe_sprite.png">
+</div>
+...
+<div align="center">  
+  <img align="center" width=100% src="img/altera_pixel_sprite.png">
+</div>
+...
+<div align="center">  
+  <img align="center" width=100% src="img/desenha_poligono.png">
+</div>
+...
+<div align="center">  
+  <img align="center" width=100% src="img/escreve_bloco.png">
+</div>
 ...
 
 ## Testes

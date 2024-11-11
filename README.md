@@ -180,3 +180,5 @@ O comando `make` gerará o arquivo de compilação e o executará. Se a operaç�
 ## Referências
 - [1] FPGAcademy. (2024) https://fpgacademy.org/
 - [2] Trabalho de Conclusão de Curso de Gabriel Sá Barreto Alves. (2024) https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view
+  
+<img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=6959CD&height=120&section=footer"/>

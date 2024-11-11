@@ -13,11 +13,10 @@
 - [Referências](#Referências)
 
 
-## Visão Geral do Problema 2
+## Visão Geral
 O objetivo central do problema 2 foi criar uma biblioteca em assembly com funções gráficas para poder manipular a GPU feita pelo estudante Gabriel Sá Barreto, para assim, facilitar a implementação do jogo Tetris feito no problema 1.
 O trabalho de Conclusão de Curso de Gabriel pode ser acessado em: https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view
 
-## Requisitos 
 
 ## Funcionalidades da biblioteca
 - Exibir sprites salvos da memória
@@ -52,6 +51,17 @@ A presente biblioteca foi desenvolvida em assembly para interagir com o processa
   <img align="center" width=50% src="https://github.com/sarinhasf/Biblioteca-GPU/blob/main/img/anima%C3%A7%C3%A3o%20gpu.gif" alt="GraphLib">
   <p><em>Desenvolvimento da Biblioteca</em></p>
 </div>
+
+### Alterar cor padrão do background
+<div align="center">  
+  <img align="center" width=100% src="img/altera_cor_bg.png" alt="Alterar cor padrão do background">
+</div>
+
+- Parâmetros
+  - uint16_t cor: o número da nova cor do background.
+  - uint8_t registrador: o registrador onde a cor será armazenada.
+
+...
 
 ## Testes
 

@@ -1,5 +1,5 @@
 @ GRAPH LIB
-@ Biblioteca com funções gráficas para o GPU do Gabriel Sá Barreto
+@ Biblioteca com funcoes graficas para o GPU do Gabriel Sá Barreto
 
 .section .data
 dev: .asciz "/dev/mem"       

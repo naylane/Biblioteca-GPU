@@ -149,13 +149,13 @@ Foram construidos 5 casos de testes para testar se todas instruções estaam fun
  - **Caso de Teste 2 | Instrução WBR para alterar o backgraund:** 
     Tem por objetivo testar a função altera_cor_bg da nossa biblioteca para alterar a cor do Backgraund. Nela usamos a intrução WBR da GPU. 
 
- - **Caso de Teste 3: Instrução WBR para exibir sprite:** 
+ - **Caso de Teste 3 | Instrução WBR para exibir sprite:** 
     Esse caso de teste tem por objetivo exibir um sprit em tela com a nossa função exibe_sprite, usando a intrução WRB da GPU. 
 
- - **Caso de Teste 4: Instrução WSM para armazena ou modifica o conteúdo presente na Memória de Sprite:** 
+ - **Caso de Teste 4 | Instrução WSM para armazena ou modifica o conteúdo presente na Memória de Sprite:** 
     Tem por objetivo modificar o conteúdo na memória do sprite usando a instrução WSM e posteriormente exibir em tela para certificar a modificação. Nessa caso, desenhamos um pinguim em um sprit e exibimos essa modificação em tela. 
 
-  - **Caso de Teste 5: Instrução WBM configurar valores RGB para o preenchimento de áreas do background:** 
+  - **Caso de Teste 5 | Instrução WBM configurar valores RGB para o preenchimento de áreas do background:** 
     Esse caso de teste tem por objetivo modificar uma área especifica do backgraund usando a instrução WBM. 
     Assim, com essa função conseguimos fazer todo nosso jogo tetris que iremos exibir para mostrar o efeitivo funcionamento usando as seguintes funções da nossa biblioteca: escreve_bloco e apaga_bloco.
 

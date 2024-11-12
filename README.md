@@ -79,7 +79,7 @@ O processador gráfico do Gabriel contém algumas instruções para exibir eleme
 Assim, no nosso código em assembly, passando corretamente os parâmetros atráves dos barramentos dataA e dataB, e sempre habilitando e desabilitando o wrreg para o correto funcionamento das intruções, conseguimos construir a GraphLib (nossa biblioteca).
 
 # Desenvolvimento da Biblioteca
-A presente biblioteca foi desenvolvida em assembly para interagir com o processador gráfico citado anteriormente para exibir elementos no monitor através do VGA. Ela oferece funções para manipulação de elementos gráficos, como sprites, background e polígonos, diretamente através de instruções de baixo nível. Em todas as funções, é realizada o devido salvamento e recuperação de contexto, além da desativação e ativação do wrreg quando necessário.
+GraphLib é uma biblioteca desenvolvida em assembly para interagir com o processador gráfico, citado anteriormente, para exibir elementos no monitor através do VGA. A biblioteca oferece um conjunto de funções especializadas para manipulação de elementos gráficos como sprites, background e polígonos, utilizando instruções de baixo nível para comunicação direta com o hardware. Foi implementado em todas as funções o devido salvamento e recuperação de contexto, além da desativação e ativação do wrreg quando necessário.
 
 <div align="center">  
   <img align="center" width=50% src="https://github.com/sarinhasf/Biblioteca-GPU/blob/main/img/anima%C3%A7%C3%A3o%20gpu.gif" alt="GraphLib">

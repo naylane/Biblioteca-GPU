@@ -97,18 +97,22 @@ São deslocados 4 bits no registrador r1 para a escrita do opcode. O valor do op
 </div>
 
 ### Exibir sprites salvos da memória
-desenvolvimento em assembly
+Implementada através da instrução WBR do processador gráfico, esta função aceita parâmetros como o habilitação do sprite, suas coordenadas x e y, o offset na memória de sprites e o registrador a ser utilizado. Esses parâmetros são combinados e enviados através dos barramentos dataA e dataB para configurar a exibição do sprite.
 - Parâmetros
-  - ...
+  - uint8_t sp: habilita/desabilita sprite
+  - uint16_t xy: posição x,y do sprite
+  - uint16_t offset: deslocamento de acesso na memória de sprites
+  - uint8_t registrador: registrador a ser utilizado
 <div align="center">  
   <img align="center" width=100% src="img/exibe_sprite.png">
   <p><em>Chamada da função em C</em></p>
 </div>
 
 ### Modificar sprites da memória 
-desenvolvimento em assembly
+Implementada a instrução WSM do processador gráfico, esta função permite modificar pixels individuais dentro de um sprite armazenado na memória de sprites. O processo envolve a especificação da cor do pixel (em formato BBBGGGRRR de 9 bits) e do endereço do pixel do sprite (14 bits). Esses dados são formatados e enviados através dos barramentos dataA e dataB para atualizar o pixel específico no sprite.
 - Parâmetros
-  - ...
+  - uint16_t cor: cor do pixel
+  - uint16_t endereco: endereço do pixel do sprite
 <div align="center">  
   <img align="center" width=100% src="img/altera_pixel_sprite.png">
   <p><em>Chamada da função em C</em></p>

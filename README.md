@@ -82,7 +82,7 @@ Assim, no nosso código em assembly, passando corretamente os parâmetros atráv
 GraphLib é uma biblioteca desenvolvida em assembly para interagir com o processador gráfico, citado anteriormente, para exibir elementos no monitor através do VGA. A biblioteca oferece um conjunto de funções especializadas para manipulação de elementos gráficos como sprites, background e polígonos, utilizando instruções de baixo nível para comunicação direta com o hardware. Foi implementado em todas as funções o devido salvamento e recuperação de contexto, além da desativação e ativação do wrreg quando necessário.
 
 <div align="center">  
-  <img align="center" width=50% src="https://github.com/sarinhasf/Biblioteca-GPU/blob/main/img/anima%C3%A7%C3%A3o%20gpu.gif" alt="GraphLib">
+  <img align="center" width=50% src="https://github.com/sarinhasf/Biblioteca-GPU/blob/main/img/animacao_gpu.gif" alt="GraphLib">
   <p><em>Desenvolvimento da Biblioteca</em></p>
 </div>
 

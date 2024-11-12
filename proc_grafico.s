@@ -301,7 +301,7 @@ altera_pixel_sprite:
 @ r0 -> passa cor
 @ r1 -> pega tamanho (vai de 1-15)
 @ r2 -> pega forma (1 é triangulo e 0 quadrado)
-@ r3 -> endereço de memoria (1-15)
+@ r3 -> x e y
 
 desenha_poligono:
   push {r0-r11, lr}
@@ -324,7 +324,7 @@ desenha_poligono:
   str r0, [r11, #dataB] @passando parametros para o data B
 
   @dataA
-  lsl r6, r6, #4 @r3 é onde ta o endereco, então aqui recebe o endereço e desloca 4 bits a esquerda
+  lsl r6, r6, #4 @onde ta o endereco, então aqui recebe o endereço e desloca 4 bits a esquerda
   mov r6, #0b0011 @opcode de DP adicionado em 4 bits
   str r6, [r11, #dataA] @passando parametros para o data A
 

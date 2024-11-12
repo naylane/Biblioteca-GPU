@@ -53,7 +53,7 @@ Para que os usuários desfrutem de máxima flexibilidade, todas as conexões sã
 
 
 # Sobre o Processador Gráfico Utilizado
-O GPU placa DE1-SOC que estamos utilizando para a elaboração dos projetos do PBL de SD foi substituida por um um processador gráfico feito pelo aluno Gabriel Sá Barreto em seu TCC de tema "Desenvolvimento de uma Arquitetura Baseada em Sprites para criac ̧ao de Jogos 2D em Ambientes Reconfiguraveis utilizando dispositivos FPGA", material este que usamos como base durante todo projeto. 
+A GPU da placa DE1-SOC que estamos utilizando para a elaboração dos projetos do PBL de SD foi substituída por um um processador gráfico feito pelo aluno Gabriel Sá Barreto em seu TCC de tema "Desenvolvimento de uma Arquitetura Baseada em Sprites para criac ̧ao de Jogos 2D em Ambientes Reconfiguraveis utilizando dispositivos FPGA", material este que usamos como base durante todo projeto. 
 Esse processador permite mover e controlar elementos em um monitor VGA com resolução de 640x480 pixels. Dessa forma, ele contém funções que permite desenhar polígonos convexos (Quadrado e Triângulo), desenhar sprits, além de pintar o background ou uma parte específica do background. 
 
 ## Arquitetura do Processador Gráfico 
@@ -69,7 +69,7 @@ Esse processador permite mover e controlar elementos em um monitor VGA com resol
 </div>
 
 ## Instruções do Processador Gráfico 
-O processador gráfico do Gabriel contém algumas intruções para exibir elementos gráficos no VGA, elas são:
+O processador gráfico do Gabriel contém algumas instruções para exibir elementos gráficos no VGA, elas são:
   1) Escrita no Banco de Registradores (WBR): Essa instrução é responsável por configurar os
   registradores que armazenam as informações dos sprites e a cor base do background.
   2) Escrita na Memória de Sprites (WSM): Essa instrução armazena ou modifica o conteúdo presente na Memória de Sprites.   
@@ -115,9 +115,12 @@ desenvolvimento em assembly
 </div>
 
 ### Desenhar poligonos (quadrados e triângulos)
-desenvolvimento em assembly
+Para começar, é coloca 0 no wrreg. Após isso pega o que foi passado nos parâmetros pelos registradores r0 (cor), r1 (tamanho), r2 (forma) e r3 (posição x e y) e passa para o barramento B. No barramento A passa o opcode e o endereço de memória, que nesse caso estamos colocando um endereço fixo (0000), porém isso pode ser mudado posteriormente. 
 - Parâmetros
-  - ...
+  - uint16_t cor: cor do poligono
+  - uint16_t tamanho: qual seria o tamanho do poligono, podendo varias entre 16 tamanhos
+  - uint16_t forma: define se é quadrado ou triângulo
+  - uint16_t endereco: se onde o poligono vai ser posicionado em tela
 <div align="center">  
   <img align="center" width=100% src="img/desenha_poligono.png">
   <p><em>Chamada da função em C</em></p>

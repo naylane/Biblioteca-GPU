@@ -114,13 +114,13 @@ desenvolvimento em assembly
   <p><em>Chamada da função em C</em></p>
 </div>
 
-### Desenhar poligonos (quadrados e triângulos)
-Para começar, é coloca 0 no wrreg. Após isso pega o que foi passado nos parâmetros pelos registradores r0 (cor), r1 (tamanho), r2 (forma) e r3 (posição x e y) e passa para o barramento B. No barramento A passa o opcode e o endereço de memória, que nesse caso estamos colocando um endereço fixo (0000), porém isso pode ser mudado posteriormente. 
+### Desenhar polígonos (quadrados e triângulos)
+Para começar, é colocado 0 no wrreg. Após isso pega o que foi passado nos parâmetros pelos registradores r0 (cor), r1 (tamanho), r2 (forma) e r3 (posição x e y) e passa para o barramento B. No barramento A passa o opcode e o endereço de memória, que nesse caso estamos colocando um endereço fixo (0000), porém isso pode ser mudado posteriormente. Depois dos parâmetros passados, coloca 1 no wrreg e depois coloca 0 novamente. 
 - Parâmetros
   - uint16_t cor: cor do poligono
   - uint16_t tamanho: qual seria o tamanho do poligono, podendo varias entre 16 tamanhos
   - uint16_t forma: define se é quadrado ou triângulo
-  - uint16_t endereco: se onde o poligono vai ser posicionado em tela
+  - uint16_t endereco: onde o polígono vai ser posicionado em tela
 <div align="center">  
   <img align="center" width=100% src="img/desenha_poligono.png">
   <p><em>Chamada da função em C</em></p>

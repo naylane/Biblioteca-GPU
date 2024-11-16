@@ -10,7 +10,7 @@
 - [Arquitetura do Kit de Desenvolvimento DE1-SoC](#Arquitetura-do-Kit-de-Desenvolvimento-DE1-SoC)
 - [Sobre o processador utilizado](#Sobre-o-Processador-Gráfico-Utilizado)
 - [Desenvolvimento da Biblioteca](#Desenvolvimento-da-Biblioteca)
-- [Como usar a GraphLib?](#Como-usar-a-GraphLib?)
+- [Como usar a GraphLib?](#Como-usar-a-GraphLib)
 - [Testes](#Testes)
 - [Tecnologias e Ferramentas utilizadas](#Tecnologias-e-Ferramentas-utilizadas)
 - [Configurações de Ambiente e Execução](#Configurações-de-Ambiente-e-Execução)
@@ -87,7 +87,7 @@ GraphLib é uma biblioteca desenvolvida em assembly para interagir com o process
   <p><em>Desenvolvimento da Biblioteca</em></p>
 </div>
 
-# Como usar a GraphLib?
+# Como usar a GraphLib
 Para usar a GraphLib basicamente no seu código em C você vai chamar o header da biblioteca (proc_grafico.h) e após isso você pode chamar as funções criadas que citamos anteriormente. 
 
 ### inicializa_fpga e fecha_dev_mem

@@ -87,6 +87,7 @@ GraphLib é uma biblioteca desenvolvida em assembly para interagir com o process
   <p><em>Desenvolvimento da Biblioteca</em></p>
 </div>
 
+
 # Como usar a GraphLib
 Para usar a GraphLib basicamente no seu código em C você vai chamar o header da biblioteca (proc_grafico.h) e após isso você pode chamar as funções criadas que citamos anteriormente. 
 

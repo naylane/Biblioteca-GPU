@@ -89,6 +89,39 @@ GraphLib é uma biblioteca desenvolvida em assembly para interagir com o process
 
 ### Definir a cor base do background
 São deslocados 4 bits no registrador r1 para a escrita do opcode. O valor do opcode da instrução WBR (0000) é guardado em r3, após isso, os dois valores são somados e armazenados no barramento A. O parâmetro referente a cor, presente em r0, é armazenado no barramento B. Após o envio desses dados, wrreg é ativo e a instrução executada.
+
+### Exibir sprites salvos da memória
+Implementada através da instrução WBR do processador gráfico, esta função aceita parâmetros como o habilitação do sprite, suas coordenadas x e y, o offset na memória de sprites e o registrador a ser utilizado. Esses parâmetros são combinados e enviados através dos barramentos dataA e dataB para configurar a exibição do sprite.
+
+
+### Modificar sprites da memória 
+Implementada a instrução WSM do processador gráfico, esta função permite modificar pixels individuais dentro de um sprite armazenado na memória de sprites. O processo envolve a especificação da cor do pixel (em formato BBBGGGRRR de 9 bits) e do endereço do pixel do sprite (14 bits). Esses dados são formatados e enviados através dos barramentos dataA e dataB para atualizar o pixel específico no sprite.
+
+### Desenhar polígonos (quadrados e triângulos)
+Para começar, é colocado 0 no wrreg. Após isso pega o que foi passado nos parâmetros pelos registradores r0 (cor), r1 (tamanho), r2 (forma) e r3 (posição x e y) e passa para o barramento B. No barramento A passa o opcode e o endereço de memória, que nesse caso estamos colocando um endereço fixo (0000), porém isso pode ser mudado posteriormente. Depois dos parâmetros passados, coloca 1 no wrreg e depois coloca 0 novamente. 
+
+### Desenhar quadrados de tamanho 8x8
+Inicialmente, r3 recebe o valor da posição do bloco passado como parâmetro, e é deslocado para a esquerda para alinhar corretamente no barramento A. De forma análoga, r4 contém o valor da cor do bloco passado como parâmetro, que será enviado pelo barramento B.
+Segundamente, r1 e r2 são utilizados para configurar o barramento A e definir o opcode (0b0010 para WBM).
+
+# Como usar a GraphLib?
+Para usar a GraphLib basicamente no seu código em C você vai chamar o header da biblioteca (proc_grafico.h) e após isso você pode chamar as funções criadas que citamos anteriormente. 
+
+### inicializa_fpga e fecha_dev_mem
+Antes de usar qualquer uma das funções gráficas da biblioteca você deve chamar o inicializa_fpga e ao encerrar a função gráfica fecha_dev_men para que as funções gráficas funcionem corretamente chamando as syscall necessárias para abrir e fechar o arquivo devmam, para fazer e desfazer o mapeamento. 
+
+### escreve_bloco e apaga_bloco
+Para usar a função escreve_bloco você precisa passar a cor e posição. Em relação as cores, elas já estam definidas no header da biblioteca e basta chamar o nome da cor, e em relação a posição é necessário fazer um calculo para passar o valor. Sabendo que em tela temos uma resolução de 80x60 blocos de tamanho 8x8, quando formos passar a posição precisamos calcular dessa maneira: (i + (j * 80)), em que i é a posição da linha e j a posição da coluna. Em relação ao apaga bloco, somente é preciso passar a posição em que quer apagar.
+- Parâmetros
+  - uint16_t cor: cor do bloco
+  - uint16_t posicao: posicao do bloco
+<div align="center">  
+  <img align="center" width=90% src="img/escreve_bloco.png">
+  <p><em>Chamada da função em C</em></p>
+</div>
+
+### altera_cor_bG
+Após chamar essa função somente é necessário passar a cor e o registrador que irá armazenar a informação. 
 - Parâmetros
   - uint16_t cor: o número da nova cor do background.
   - uint8_t registrador: o registrador onde a cor será armazenada.
@@ -97,8 +130,8 @@ São deslocados 4 bits no registrador r1 para a escrita do opcode. O valor do op
   <p><em>Chamada da função em C</em></p>
 </div>
 
-### Exibir sprites salvos da memória
-Implementada através da instrução WBR do processador gráfico, esta função aceita parâmetros como o habilitação do sprite, suas coordenadas x e y, o offset na memória de sprites e o registrador a ser utilizado. Esses parâmetros são combinados e enviados através dos barramentos dataA e dataB para configurar a exibição do sprite.
+### exibe_sprite 
+Para o exibe_sprite precisamos passar o sp como 1 para habilitar o sprit, o offset, o registrador e também a posição xy. Para passar a posição xy, fizemos uma mascara de bits para certificar que os bits que iriamos passar estavam precisos com o que queriamos passar, limitando os bits das posições x e y aos 10 bits menos significativos. Assim, a máscara de bits é usada nesse contexto para garantir que apenas os 10 bits necessários sejam usados ao combinar pos_x e pos_y em pos_xy_20b, que armazena os dois valores em 20 bits (10 bits de pos_x deslocados e 10 bits de pos_y).
 - Parâmetros
   - uint8_t sp: habilita/desabilita sprite
   - uint16_t xy: posição x,y do sprite
@@ -109,8 +142,20 @@ Implementada através da instrução WBR do processador gráfico, esta função 
   <p><em>Chamada da função em C</em></p>
 </div>
 
-### Modificar sprites da memória 
-Implementada a instrução WSM do processador gráfico, esta função permite modificar pixels individuais dentro de um sprite armazenado na memória de sprites. O processo envolve a especificação da cor do pixel (em formato BBBGGGRRR de 9 bits) e do endereço do pixel do sprite (14 bits). Esses dados são formatados e enviados através dos barramentos dataA e dataB para atualizar o pixel específico no sprite.
+### desenha_poligono
+Para essa precisamos passar a cor (que já foram definidas no header), o tamanho que varia entre 15 tamanhos diferentes (detalhados no TCC), a forma do poligono, em que 0 é quadrado e 1 é triângulo, e a posição xy em que para isso é necessário fazer o mesmo processo com máscara de bits que citamos anteriormente no exibe_sprit para passar exatamente, nesse caso, 18 bits referente a essas posições, sendo que 9 desses bits se refere ao x e 9 ao y. 
+- Parâmetros
+  - uint16_t cor: cor do poligono
+  - uint16_t tamanho: qual seria o tamanho do poligono, podendo varias entre 16 tamanhos
+  - uint16_t forma: define se é quadrado ou triângulo
+  - uint16_t endereco: onde o polígono vai ser posicionado em tela, psoição xy
+<div align="center">  
+  <img align="center" width=100% src="img/desenha_poligono.png">
+  <p><em>Chamada da função em C</em></p>
+</div>
+
+### altera_pixel_sprite
+Aqui passamos a cor e o endereço do pixel que queremos que seja alterado com essa cor. 
 - Parâmetros
   - uint16_t cor: cor do pixel
   - uint16_t endereco: endereço do pixel do sprite
@@ -118,37 +163,6 @@ Implementada a instrução WSM do processador gráfico, esta função permite mo
   <img align="center" width=100% src="img/altera_pixel_sprite.png">
   <p><em>Chamada da função em C</em></p>
 </div>
-
-### Desenhar polígonos (quadrados e triângulos)
-Para começar, é colocado 0 no wrreg. Após isso pega o que foi passado nos parâmetros pelos registradores r0 (cor), r1 (tamanho), r2 (forma) e r3 (posição x e y) e passa para o barramento B. No barramento A passa o opcode e o endereço de memória, que nesse caso estamos colocando um endereço fixo (0000), porém isso pode ser mudado posteriormente. Depois dos parâmetros passados, coloca 1 no wrreg e depois coloca 0 novamente. 
-- Parâmetros
-  - uint16_t cor: cor do poligono
-  - uint16_t tamanho: qual seria o tamanho do poligono, podendo varias entre 16 tamanhos
-  - uint16_t forma: define se é quadrado ou triângulo
-  - uint16_t endereco: onde o polígono vai ser posicionado em tela
-<div align="center">  
-  <img align="center" width=100% src="img/desenha_poligono.png">
-  <p><em>Chamada da função em C</em></p>
-</div>
-
-### Desenhar quadrados de tamanho 8x8
-Inicialmente, r3 recebe o valor da posição do bloco passado como parâmetro, e é deslocado para a esquerda para alinhar corretamente no barramento A. De forma análoga, r4 contém o valor da cor do bloco passado como parâmetro, que será enviado pelo barramento B.
-Segundamente, r1 e r2 são utilizados para configurar o barramento A e definir o opcode (0b0010 para WBM).
-
-<div align="center">  
-  <img align="center" width=90% src="img/escreve_bloco.png">
-  <p><em>Chamada da função em C</em></p>
-</div>
-
-# Como usar a GraphLib?
-Para usar a GraphLib basicamente no seu código em C você vai chamar o header da biblioteca (proc_grafico.h) e após isso você pode chamar as funções criadas que citamos anteriormente. 
-
-### inicializa_fpga e fecha_dev_mem
-Antes de usar qualquer uma das funções gráficas da biblioteca você deve chamar o inicializa_fpga e ao encerrar a função gráfica fecha_dev_men para que as funções gráficas funcionem corretamente chamando as syscall necessárias para abrir e fechar o arquivo devmam, para fazer e desfazer o mapeamento. 
-
-### escreve_bloco e apaga_bloco
-
-
 
 # Testes
 Foram construidos 5 casos de testes para testar se todas instruções estam funcionando corretamente:

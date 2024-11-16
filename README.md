@@ -87,23 +87,6 @@ GraphLib é uma biblioteca desenvolvida em assembly para interagir com o process
   <p><em>Desenvolvimento da Biblioteca</em></p>
 </div>
 
-### Definir a cor base do background
-São deslocados 4 bits no registrador r1 para a escrita do opcode. O valor do opcode da instrução WBR (0000) é guardado em r3, após isso, os dois valores são somados e armazenados no barramento A. O parâmetro referente a cor, presente em r0, é armazenado no barramento B. Após o envio desses dados, wrreg é ativo e a instrução executada.
-
-### Exibir sprites salvos da memória
-Implementada através da instrução WBR do processador gráfico, esta função aceita parâmetros como o habilitação do sprite, suas coordenadas x e y, o offset na memória de sprites e o registrador a ser utilizado. Esses parâmetros são combinados e enviados através dos barramentos dataA e dataB para configurar a exibição do sprite.
-
-
-### Modificar sprites da memória 
-Implementada a instrução WSM do processador gráfico, esta função permite modificar pixels individuais dentro de um sprite armazenado na memória de sprites. O processo envolve a especificação da cor do pixel (em formato BBBGGGRRR de 9 bits) e do endereço do pixel do sprite (14 bits). Esses dados são formatados e enviados através dos barramentos dataA e dataB para atualizar o pixel específico no sprite.
-
-### Desenhar polígonos (quadrados e triângulos)
-Para começar, é colocado 0 no wrreg. Após isso pega o que foi passado nos parâmetros pelos registradores r0 (cor), r1 (tamanho), r2 (forma) e r3 (posição x e y) e passa para o barramento B. No barramento A passa o opcode e o endereço de memória, que nesse caso estamos colocando um endereço fixo (0000), porém isso pode ser mudado posteriormente. Depois dos parâmetros passados, coloca 1 no wrreg e depois coloca 0 novamente. 
-
-### Desenhar quadrados de tamanho 8x8
-Inicialmente, r3 recebe o valor da posição do bloco passado como parâmetro, e é deslocado para a esquerda para alinhar corretamente no barramento A. De forma análoga, r4 contém o valor da cor do bloco passado como parâmetro, que será enviado pelo barramento B.
-Segundamente, r1 e r2 são utilizados para configurar o barramento A e definir o opcode (0b0010 para WBM).
-
 # Como usar a GraphLib?
 Para usar a GraphLib basicamente no seu código em C você vai chamar o header da biblioteca (proc_grafico.h) e após isso você pode chamar as funções criadas que citamos anteriormente. 
 

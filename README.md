@@ -10,7 +10,7 @@
 - [Arquitetura do Kit de Desenvolvimento DE1-SoC](#Arquitetura-do-Kit-de-Desenvolvimento-DE1-SoC)
 - [Sobre o processador utilizado](#Sobre-o-Processador-Gráfico-Utilizado)
 - [Desenvolvimento da Biblioteca](#Desenvolvimento-da-Biblioteca)
-- [Como usar a GraphLib?](#Desenvolvimento-da-Biblioteca)
+- [Como usar a GraphLib?](#Como-usar-a-GraphLib?)
 - [Testes](#Testes)
 - [Tecnologias e Ferramentas utilizadas](#Tecnologias-e-Ferramentas-utilizadas)
 - [Configurações de Ambiente e Execução](#Configurações-de-Ambiente-e-Execução)

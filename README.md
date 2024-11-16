@@ -10,6 +10,7 @@
 - [Arquitetura do Kit de Desenvolvimento DE1-SoC](#Arquitetura-do-Kit-de-Desenvolvimento-DE1-SoC)
 - [Sobre o processador utilizado](#Sobre-o-Processador-Gráfico-Utilizado)
 - [Desenvolvimento da Biblioteca](#Desenvolvimento-da-Biblioteca)
+- [Como usar a GraphLib?](#Desenvolvimento-da-Biblioteca)
 - [Testes](#Testes)
 - [Tecnologias e Ferramentas utilizadas](#Tecnologias-e-Ferramentas-utilizadas)
 - [Configurações de Ambiente e Execução](#Configurações-de-Ambiente-e-Execução)
@@ -139,9 +140,18 @@ Segundamente, r1 e r2 são utilizados para configurar o barramento A e definir o
   <p><em>Chamada da função em C</em></p>
 </div>
 
+# Como usar a GraphLib?
+Para usar a GraphLib basicamente no seu código em C você vai chamar o header da biblioteca (proc_grafico.h) e após isso você pode chamar as funções criadas que citamos anteriormente. 
+
+### inicializa_fpga e fecha_dev_mem
+Antes de usar qualquer uma das funções gráficas da biblioteca você deve chamar o inicializa_fpga e ao encerrar a função gráfica fecha_dev_men para que as funções gráficas funcionem corretamente chamando as syscall necessárias para abrir e fechar o arquivo devmam, para fazer e desfazer o mapeamento. 
+
+### escreve_bloco e apaga_bloco
+
+
 
 # Testes
-Foram construidos 5 casos de testes para testar se todas instruções estaam funcionando corretamente:
+Foram construidos 5 casos de testes para testar se todas instruções estam funcionando corretamente:
 
  - **Caso de Teste 1 | Instrução DP:** 
     Esse primeiro caso de teste tem por objetivo testar a função feita da nossa biblioteca: desenha_poligono, usando a intrução DP da GPU. Assim ela deve desenhar um poligono em tela, seja um triângulo ou quadrado.  

@@ -87,6 +87,36 @@ GraphLib é uma biblioteca desenvolvida em assembly para interagir com o process
   <p><em>Desenvolvimento da Biblioteca</em></p>
 </div>
 
+## Implementação das Instruções em Assembly
+Apresentação do código assembly que compõe a biblioteca gráfica. Como as instruções WBR, WBM, WSM e DP foram implementadas, como os bits são manipulados para formar instruções e como os dados são enviados aos barramentos para execução pelo processador gráfico. 
+
+### Organização Geral das Instruções
+As instruções seguem a mesma estrutura básica, permitindo que sejam interpretadas e executadas pelo processador gráfico:
+- Organização dos Bits:
+Os bits de cada dado são organizados em campos específicos na Instruction Word (palavra de controle).
+Cada parâmetro ocupa uma posição predefinida, utilizando deslocamentos de bits para garantir o alinhamento correto.
+- Envio para os Barramentos:
+Após montados, os bits são enviados para os barramentos dataA e dataB.   
+- Ativação do wrreg:
+O wrreg é ativado (1) para sinalizar a execução da instrução. Em seguida, ele é desativado (0) para permitir novas operações.
+
+### Montagem das Instruções
+A montagem das instruções no processador gráfico segue uma lógica baseada no deslocamento de bits. Esse processo organiza os dados em posições específicas (campos) em um registrador para montar a Instruction Word, palavra de controle da instrução, garantindo que cada instrução seja interpretada corretamente. 
+
+As instruções possuem uma estrutura própria pré-definida, dividida em campos. Cada campo ocupa um intervalo de bits específico dentro da Instruction Word e o deslocamento é utilizado para posicionar cada dado alinhando em seu respectivo campo.
+
+A montagem de uma instrução envolve três passos principais:
+- Preenchimento dos Campos: Cada dado é deslocado para os bits do campo que deve ocupar na instrução, começando pelo mais significativo.
+- Concatenação dos Campos: Os valores dos campos são combinados utilizando operações bit a bit (OR/ADD).
+- Envio da Instrução: Após a montagem, a Instruction Word completa é enviada para execução através dos barramentos.
+  
+Dessa forma, todas as instruções são montadas e permitem a comunicação com o processador gráfico.
+
+### Inicialização e Mapeamento de Memória
+A função `inicializa_fpga` abre o arquivo `/dev/mem`, que permite acesso à memória física do sistema. Em seguida, configura o mapeamento de memória (mmap) para o processador gráfico, conectando a memória virtual à memória física. A Ponte entre Processador e FPGA, esta função é fundamental para o funcionamento da biblioteca, fazendo com que o código assembly tenha acesso aos registradores e às memórias do processador gráfico. Através do mapeamento, podemos escrever instruções diretamente na memória da FPGA, comandando o comportamento do hardware e renderizando gráficos na tela.
+
+### Encerramento: Liberação da Memória e Fechando Arquivos
+A função `fecha_dev_mem` é responsável por liberar a memória mapeada e fechar o arquivo `/dev/mem`. O código `munmap` desfaz o mapeamento de memória, liberando a memória virtual que havia sido conectada à memória física. O `close` fecha o arquivo `/dev/mem`, finalizando a conexão com a FPGA.
 
 # Como usar a GraphLib
 Para usar a GraphLib basicamente no seu código em C você vai chamar o header da biblioteca (proc_grafico.h) e após isso você pode chamar as funções criadas que citamos anteriormente. 

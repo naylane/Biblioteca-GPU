@@ -115,7 +115,7 @@ Dessa forma, todas as instruções são montadas e permitem a comunicação com 
 ### Inicialização e Mapeamento de Memória
 A função `inicializa_fpga` abre o arquivo `/dev/mem`, que permite acesso à memória física do sistema. Em seguida, configura o mapeamento de memória (mmap) para o processador gráfico, conectando a memória virtual à memória física. A Ponte entre Processador e FPGA, esta função é fundamental para o funcionamento da biblioteca, fazendo com que o código assembly tenha acesso aos registradores e às memórias do processador gráfico. Através do mapeamento, podemos escrever instruções diretamente na memória da FPGA, comandando o comportamento do hardware e renderizando gráficos na tela.
 
-### Encerramento: Liberação da Memória e Fechando Arquivos
+### Encerramento e Liberação da Memória
 A função `fecha_dev_mem` é responsável por liberar a memória mapeada e fechar o arquivo `/dev/mem`. O código `munmap` desfaz o mapeamento de memória, liberando a memória virtual que havia sido conectada à memória física. O `close` fecha o arquivo `/dev/mem`, finalizando a conexão com a FPGA.
 
 # Como usar a GraphLib

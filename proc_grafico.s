@@ -6,6 +6,7 @@ dev: .asciz "/dev/mem"
 ponteFPGA: .word 0xff200
 mem_vga_max: .word 4799
 cor_apaga_bloco: .word 510
+apaga_bg: .word 000
 mascara_9b: .word 0b111111111
 mascara_14b: .word 0b11111111111111
 fd: .word 0
@@ -59,6 +60,9 @@ sp_sucesso: .asciz "Wrreg em 0\n"
 
 .global altera_cor_bg
 .type altera_cor_bg, %function
+
+.global apaga_bg
+.type apaga_bg, %function
 
 
 @ inicializa_fpga: responsável por abrir a devman e configurar o mmap
@@ -348,8 +352,6 @@ desenha_poligono:
 @_________________________________________________________________________________________________________________________________________________________________________
 
 @ altera_cor_bg: usa a instrução WBR da GPU para alterar a cor do backgraund
-@ parâmetros:
-@
 
 altera_cor_bg:
   @ Salvando contexto
@@ -370,6 +372,48 @@ altera_cor_bg:
   str r1, [r11, #dataA] 
 
   @ Escreve o valor de cor no barramento dataB
+  str r0, [r11, #dataB] 
+
+  @ colocando 1 no wrreg
+  mov r5, #1
+  mov r8, #wrreg
+  str r5, [r11, r8] @ coloca o start (wrreg) em positivo pra executar os barramentos
+
+  bl _sucesso
+
+  @ colocando 0 no wrreg
+  mov r5, #0
+  mov r8, #wrreg
+  str r5, [r11, r8] @ Calcula o endereço (0xc0 hexadecimal) ao endereço base armazenado em r11, e coloca o valor logico baixo ao start (werreg)
+
+  @ Restaurando contexto
+  pop {r0-r11, pc}
+  bx lr
+
+@_________________________________________________________________________________________________________________________________________________________________________
+
+@ apaga_bg: usa a instrução WBR da GPU para apagar a cor do backgraund
+
+apaga_bg:
+  @ Salvando contexto
+  push {r0-r11, lr}
+
+  ldr r11, =end_base @ r11 = endereço base
+  ldr r11, [r11]
+
+  @ colocando 0 no wrreg
+  mov r5, #0
+  mov r8, #wrreg
+  str r5, [r11, r8] @ Calcula o endereço (0xc0 hexadecimal) ao endereço base armazenado em r11, e coloca o valor logico baixo ao start (werreg)
+
+  @ Escreve no barramento dataA
+  lsl r1, r1, #4
+  mov r3, #0b0000 @ r3 = opcode de WBR
+  add r1, r1, r3
+  str r1, [r11, #dataA] 
+
+  @ Escreve o valor de cor no barramento dataB
+  ldr r0, =apaga_bg @ carrega cor da memória 
   str r0, [r11, #dataB] 
 
   @ colocando 1 no wrreg

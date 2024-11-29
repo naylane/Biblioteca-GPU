@@ -10,7 +10,9 @@
 #define ROXO    467
 #define CIANO   504
 #define BRANCO  511
+#define AZUL_ESCURO 64
 #define APAGA  510
+#define CINZA 219
 
 void inicializa_fpga();
 
@@ -27,5 +29,8 @@ void altera_pixel_sprite(uint16_t cor, uint16_t endereco);
 void desenha_poligono(uint16_t cor, uint16_t tamanho, uint16_t forma, uint16_t endereco);
 
 void altera_cor_bg(uint16_t cor, uint8_t registrador);
+
+void apaga_bg(uint8_t registrador);
+
 
 #endif /* PROC_GRAFICO_H */
